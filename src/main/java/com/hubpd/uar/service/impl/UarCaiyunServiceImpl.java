@@ -39,7 +39,7 @@ public class UarCaiyunServiceImpl implements UarCaiyunService{
         jsonObject.addProperty("title", cbWxContent.getTitle());
         jsonObject.addProperty("url", cbWxContent.getUrl());
         jsonObject.addProperty("body", cbWxContent.getContent());
-        jsonObject.addProperty("bodyAsHtml", cbWxContent.getContent());
+        jsonObject.addProperty("bodyAsHtml", cbWxContent.getContentHtml());
         //媒体为：党媒公共平台
         jsonObject.addProperty("mediaId", Constants.UAR_CAIYUN_INSERT_MEDIA_ID);
         jsonObject.addProperty("columnName", "测试");

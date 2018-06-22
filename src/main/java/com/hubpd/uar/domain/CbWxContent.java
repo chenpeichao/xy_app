@@ -27,6 +27,8 @@ public class CbWxContent {
     private String summary;             //
     @Column
     private String content;             //文章正文
+    @Column(name = "content_html")
+    private String contentHtml;             //文章正文html
     @Column
     private String url;                 //微信文章地址
     @Column(name = "url_md5")
@@ -116,6 +118,14 @@ public class CbWxContent {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 
     public String getUrl() {
@@ -237,6 +247,7 @@ public class CbWxContent {
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
+        if (contentHtml != null ? !contentHtml.equals(that.contentHtml) : that.contentHtml != null) return false;
         if (url != null ? !url.equals(that.url) : that.url != null) return false;
         if (urlMd5 != null ? !urlMd5.equals(that.urlMd5) : that.urlMd5 != null) return false;
         if (addTime != null ? !addTime.equals(that.addTime) : that.addTime != null) return false;
@@ -263,6 +274,7 @@ public class CbWxContent {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (contentHtml != null ? contentHtml.hashCode() : 0);
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (urlMd5 != null ? urlMd5.hashCode() : 0);
         result = 31 * result + (addTime != null ? addTime.hashCode() : 0);
@@ -290,6 +302,7 @@ public class CbWxContent {
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 ", content='" + content + '\'' +
+                ", contentHtml='" + contentHtml + '\'' +
                 ", url='" + url + '\'' +
                 ", urlMd5='" + urlMd5 + '\'' +
                 ", addTime='" + addTime + '\'' +

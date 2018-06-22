@@ -171,14 +171,13 @@ public class GsdataServiceImpl implements GsdataService {
                                     for (int i = 0; i < articleListArray.length(); ++i) {
                                         JSONObject returnData = (JSONObject) articleListArray.get(i);
                                         if (returnData.has("content")) {
-                                            newEntity.setContent(returnData.getString("content"));
+                                            newEntity.setContentHtml(returnData.getString("content"));
                                         }
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-//System.err.println(str);
                             CbWxContent result = cbWxContentService.findOneByUrlMd5(newEntity.getUrlMd5());
                             if (result == null) {
                                 //当数据库中不存在该文章时，进行数据库保存以及向内容库插入
