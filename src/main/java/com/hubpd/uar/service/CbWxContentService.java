@@ -17,6 +17,13 @@ public interface CbWxContentService {
     public CbWxContent findOneByUrl(String url);
 
     /**
+     * 根据微信文章地址获取唯一文章信息
+     * @param urlMd5       微信文章地址md5值
+     * @return
+     */
+    public CbWxContent findOneByUrlMd5(String urlMd5);
+
+    /**
      * 保存微信文章信息
      * @param cbWxContent       微信文章实体
      */

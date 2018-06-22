@@ -16,7 +16,7 @@ public class TaskExecuteStatusScheduler {
     @Autowired
     private GsdataService gsdataService;
 
-    @Scheduled(fixedRate=1000*60*60)
+    @Scheduled(fixedRate=1000*60*3)
     public void updateTaskFinishStatus() {
         gsdataService.execute();
     }

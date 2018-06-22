@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 微信文章详情
  *
@@ -31,6 +33,23 @@ public class CbWxContentServiceImpl implements CbWxContentService {
             return null;
         }
         return cbWxContentRepository.findOneByUrl(url);
+    }
+
+    /**
+     * 根据微信文章地址获取唯一文章信息
+     * @param urlMd5       微信文章地址md5值
+     * @return
+     */
+    public CbWxContent findOneByUrlMd5(String urlMd5) {
+        if(StringUtils.isBlank(urlMd5)) {
+            return null;
+        }
+        //md5冗余可能查到两个结果的内容
+        List<CbWxContent> cbWxContentList = cbWxContentRepository.findByUrlMd5(urlMd5);
+        if(cbWxContentList != null && cbWxContentList.size() > 0) {
+            return cbWxContentList.get(0);
+        }
+        return null;
     }
 
     /**
