@@ -3,6 +3,7 @@ package com.hubpd.uar;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.TaskScheduler;
@@ -18,6 +19,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @EnableAutoConfiguration
 @EnableScheduling
 @SpringBootApplication
+@EnableCaching
 @PropertySource(value = {"classpath:config/constant/constant.properties"},encoding="utf-8")
 public class XYApp {
 

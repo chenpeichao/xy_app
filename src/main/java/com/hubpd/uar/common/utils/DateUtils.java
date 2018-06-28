@@ -24,4 +24,9 @@ public class DateUtils {
         Date sourcePatternDate = new SimpleDateFormat(sourcePattern).parse(dateStr);
         return new SimpleDateFormat(targetPattern).format(sourcePatternDate);
     }
+
+
+    public static String parseDate2StringByPattern(Date sourceDate, String pattern) {
+        return new SimpleDateFormat(pattern).format(sourceDate);
+    }
 }

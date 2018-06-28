@@ -1,10 +1,10 @@
 package com.hubpd.uar.service.impl;
 
 import com.google.gson.JsonObject;
-import com.hubpd.uar.common.config.Constants;
+import com.hubpd.uar.common.utils.Constants;
 import com.hubpd.uar.domain.CbWxContent;
 import com.hubpd.uar.service.UarCaiyunService;
-import org.apache.bcel.classfile.Constant;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -38,12 +38,20 @@ public class UarCaiyunServiceImpl implements UarCaiyunService{
         jsonObject.addProperty("source", cbWxContent.getName());
         jsonObject.addProperty("title", cbWxContent.getTitle());
         jsonObject.addProperty("url", cbWxContent.getUrl());
-        jsonObject.addProperty("body", cbWxContent.getContent());
-        jsonObject.addProperty("bodyAsHtml", cbWxContent.getContentHtml());
+        jsonObject.addProperty("cover", cbWxContent.getPicurl());
+        jsonObject.addProperty("author", cbWxContent.getAuthor());
+        if (StringUtils.isNotBlank(cbWxContent.getContentHtml())) {
+            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml() + "</p>");
+//            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml().replace("data-", "") + "</p>");
+        } else {
+            jsonObject.addProperty("body", cbWxContent.getContentHtml());
+        }
+//        jsonObject.addProperty("bodyAsHtml", );
         //媒体为：党媒公共平台
         jsonObject.addProperty("mediaId", Constants.UAR_CAIYUN_INSERT_MEDIA_ID);
         jsonObject.addProperty("columnName", "测试");
         String result= this.doPost(Constants.UAR_CAIYUN_INSERT_URL, jsonObject.toString());
+        System.err.println("==========插入内容库===============" + cbWxContent.getUrl());
         System.out.println(result);
         return result;
     }

@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -178,17 +177,26 @@ public class GsdataServiceImpl implements GsdataService {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            CbWxContent result = cbWxContentService.findOneByUrlMd5(newEntity.getUrlMd5());
-                            if (result == null) {
-                                //当数据库中不存在该文章时，进行数据库保存以及向内容库插入
-                                cbWxContentService.saveOne(newEntity);
-                                //内容库文章数据插入
-                                try {
-                                    uarCaiyunService.insertCaiyun(newEntity);
-                                } catch (Exception e) {
-                                    logger.error("插入内容库文章错误：【" +newEntity.getId()+"】", e);
-                                }
+
+                            try {
+                                System.err.println("=========================" + newEntity.getId());
+                                uarCaiyunService.insertCaiyun(newEntity);
+                            } catch (Exception e) {
+                                logger.error("插入内容库文章错误：【" + newEntity.getId() + "】", e);
                             }
+//                            //从数据库中查询文章信息是否存在
+//                            CbWxContent result = cbWxContentService.findOneByUrlMd5(newEntity.getUrlMd5());
+//                            if (result == null) {
+//                                //当数据库中不存在该文章时，进行数据库保存以及向内容库插入
+//                                cbWxContentService.saveOne(newEntity);
+//                                //内容库文章数据插入
+//                                try {
+//                                    System.err.println("=========================" + newEntity.getId());
+//                                    uarCaiyunService.insertCaiyun(newEntity);
+//                                } catch (Exception e) {
+//                                    logger.error("插入内容库文章错误：【" +newEntity.getId()+"】", e);
+//                                }
+//                            }
                         }
                         // 如果没有内容了，直接跳出
                         if (results.size() < DataApi.MaxRows_Request) {
