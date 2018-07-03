@@ -41,8 +41,8 @@ public class UarCaiyunServiceImpl implements UarCaiyunService{
         jsonObject.addProperty("cover", cbWxContent.getPicurl());
         jsonObject.addProperty("author", cbWxContent.getAuthor());
         if (StringUtils.isNotBlank(cbWxContent.getContentHtml())) {
-            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml() + "</p>");
-//            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml().replace("data-", "") + "</p>");
+//            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml() + "</p>");
+            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml().replace("data-", "") + "</p>");
         } else {
             jsonObject.addProperty("body", cbWxContent.getContentHtml());
         }

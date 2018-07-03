@@ -53,13 +53,13 @@ public class UserController {
                 result.put("msg", "手机号不能为空！！");
                 return result;
             }
-            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum)) {
+            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum.trim())) {
                 result.put("status", 0);
                 result.put("msg", "手机号格式错误！");
                 return result;
             }
 
-            return userService.getMessageCode(phoneNum, modelSign);
+            return userService.getMessageCode(phoneNum.trim(), modelSign);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("获取短信验证码异常====", e);
@@ -91,7 +91,7 @@ public class UserController {
                 result.put("msg", "手机号不能为空！！");
                 return result;
             }
-            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum)) {
+            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum.trim())) {
                 result.put("status", 0);
                 result.put("msg", "手机号格式错误！");
                 return result;
@@ -102,7 +102,7 @@ public class UserController {
                 return result;
             }
 
-            return userService.login(phoneNum, password);
+            return userService.login(phoneNum.trim(), password);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("用户登录异常====", e);
@@ -136,7 +136,7 @@ public class UserController {
                 result.put("msg", "手机号不能为空！！");
                 return result;
             }
-            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum)) {
+            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum.trim())) {
                 result.put("status", 0);
                 result.put("msg", "手机号格式错误！");
                 return result;
@@ -159,7 +159,7 @@ public class UserController {
                 }
             }
 
-            return userService.register(phoneNum, password, verificationCode, modelSign);
+            return userService.register(phoneNum.trim(), password, verificationCode, modelSign);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("用户注册异常====", e);
@@ -192,7 +192,7 @@ public class UserController {
                 result.put("msg", "手机号不能为空！！");
                 return result;
             }
-            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum)) {
+            if (StringUtils.isNotBlank(Constants.PHONE_NUM_REG) && !Pattern.matches(Constants.PHONE_NUM_REG, phoneNum.trim())) {
                 result.put("status", 0);
                 result.put("msg", "手机号格式错误！");
                 return result;
@@ -203,7 +203,7 @@ public class UserController {
                 return result;
             }
 
-            return userService.forwardEditPassword(phoneNum, verificationCode, modelSign);
+            return userService.forwardEditPassword(phoneNum.trim(), verificationCode, modelSign);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("跳转到重置密码页面异常====", e);
@@ -262,7 +262,7 @@ public class UserController {
                 return result;
             }
 
-            return userService.updatePassword(phoneNum, password);
+            return userService.updatePassword(phoneNum.trim(), password);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("修改密码异常====", e);

@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
             user.setPhoneNum(phoneNum);
             user.setPassword(password);
             user.setPasswordMd5(Md5Utils.getMD5OfStr(password));
-            user.setNickname(phoneNum.substring(0, 3) + "****" + phoneNum.substring(8, phoneNum.length()));
+            user.setNickname(phoneNum.substring(0, 3) + "****" + phoneNum.substring(7, phoneNum.length()));
             user.setRegisterDate(new Date());
             userRepository.saveAndFlush(user);
 

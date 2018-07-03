@@ -179,7 +179,6 @@ public class GsdataServiceImpl implements GsdataService {
                             }
 
                             try {
-                                System.err.println("=========================" + newEntity.getId());
                                 uarCaiyunService.insertCaiyun(newEntity);
                             } catch (Exception e) {
                                 logger.error("插入内容库文章错误：【" + newEntity.getId() + "】", e);
