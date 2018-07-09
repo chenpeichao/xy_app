@@ -23,6 +23,7 @@
         <lombok.version>1.16.14</lombok.version>
         <!-- 工程编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <elasticsearch.version>2.3.4</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -138,6 +139,12 @@
             <groupId>org.darkphoenixs</groupId>
             <artifactId>connectionpool-client</artifactId>
             <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
         </dependency>
     </dependencies>
 

@@ -43,12 +43,15 @@ public class UarCaiyunServiceImpl implements UarCaiyunService{
         if (StringUtils.isNotBlank(cbWxContent.getContentHtml())) {
 //            jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml() + "</p>");
             jsonObject.addProperty("body", "<p class='txt'>" + cbWxContent.getContentHtml().replace("data-", "") + "</p>");
+//            jsonObject.addProperty("body", cbWxContent.getContentHtml());
         } else {
             jsonObject.addProperty("body", cbWxContent.getContentHtml());
         }
 //        jsonObject.addProperty("bodyAsHtml", );
         //媒体为：党媒公共平台
-        jsonObject.addProperty("mediaId", Constants.UAR_CAIYUN_INSERT_MEDIA_ID);
+        jsonObject.addProperty("taskId", -1);
+//        jsonObject.addProperty("video", "https://v.qq.com/iframe/preview.html?vid=u06371hxh3z&width=500&height=375&auto=0");
+//        jsonObject.addProperty("mediaId", Constants.UAR_CAIYUN_INSERT_MEDIA_ID);
         jsonObject.addProperty("columnName", "测试");
         String result= this.doPost(Constants.UAR_CAIYUN_INSERT_URL, jsonObject.toString());
         System.err.println("==========插入内容库===============" + cbWxContent.getUrl());

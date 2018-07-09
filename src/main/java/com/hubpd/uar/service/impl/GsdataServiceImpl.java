@@ -15,18 +15,27 @@ import iims.crt.gsdata.WxUrlMonitorResult;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.InetAddress;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 清博接口数据获取实现类
@@ -179,23 +188,60 @@ public class GsdataServiceImpl implements GsdataService {
                             }
 
                             try {
-                                uarCaiyunService.insertCaiyun(newEntity);
+//                                uarCaiyunService.insertCaiyun(newEntity);
+
+
+                                Settings settings = Settings.settingsBuilder().put("cluster.name", "elasticsearch_testuar").put("client.transport.sniff", true).build();
+                                TransportClient client = TransportClient.builder().settings(settings).build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("10.10.32.58"), 9300));
+//                                GetResponse response = client.prepareGet("caiyun", "spider_result", "3731f735366dd5429e5c4e36c3790054").execute().actionGet();
+                                QueryBuilder queryBuilder = QueryBuilders.termQuery("url", newEntity.getUrl());
+                                SearchResponse response = client.prepareSearch("caiyun")
+                                        .setTypes("spider_result")
+                                        .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+                                        .setQuery(queryBuilder)
+                                        .execute()
+                                        .actionGet();
+                                SearchHits hits = response.getHits();
+                                for (SearchHit searchHit : hits) {
+                                    Map<String, Object> resultMap = searchHit.getSource();
+//                                    resultMap.put("body", newEntity.getContentHtml());
+                                    resultMap.put("body", "<p class='txt'>" + newEntity.getContentHtml().replace("data-", "") + "</p>");
+//                                    resultMap.put("body", "bac");
+
+                                    IndexResponse indexResponse = client.prepareIndex("caiyun", "spider_result")
+                                            //必须为对象单独指定ID
+                                            .setId(searchHit.getId())
+                                            .setSource(resultMap)
+                                            .execute()
+                                            .actionGet();
+                                }
+//                                System.out.println(response.toString());
+//                                Map<String, Object> resultMap =  response.getSource();
+//                                System.out.println(resultMap);
+//                                resultMap.put("body", content);
+//
+//                                IndexResponse indexResponse = client.prepareIndex("caiyun", "spider_result")
+//                                        //必须为对象单独指定ID
+//                                        .setId("3731f735366dd5429e5c4e36c3790054")
+//                                        .setSource(resultMap)
+//                                        .execute()
+//                                        .actionGet();
                             } catch (Exception e) {
                                 logger.error("插入内容库文章错误：【" + newEntity.getId() + "】", e);
                             }
 //                            //从数据库中查询文章信息是否存在
-//                            CbWxContent result = cbWxContentService.findOneByUrlMd5(newEntity.getUrlMd5());
-//                            if (result == null) {
-//                                //当数据库中不存在该文章时，进行数据库保存以及向内容库插入
-//                                cbWxContentService.saveOne(newEntity);
-//                                //内容库文章数据插入
-//                                try {
-//                                    System.err.println("=========================" + newEntity.getId());
-//                                    uarCaiyunService.insertCaiyun(newEntity);
-//                                } catch (Exception e) {
-//                                    logger.error("插入内容库文章错误：【" +newEntity.getId()+"】", e);
-//                                }
-//                            }
+                            CbWxContent result = cbWxContentService.findOneByUrlMd5(newEntity.getUrlMd5());
+                            if (result == null) {
+                                //当数据库中不存在该文章时，进行数据库保存以及向内容库插入
+                                cbWxContentService.saveOne(newEntity);
+////                                //内容库文章数据插入
+////                                try {
+////                                    System.err.println("=========================" + newEntity.getId());
+////                                    uarCaiyunService.insertCaiyun(newEntity);
+////                                } catch (Exception e) {
+////                                    logger.error("插入内容库文章错误：【" +newEntity.getId()+"】", e);
+////                                }
+                            }
                         }
                         // 如果没有内容了，直接跳出
                         if (results.size() < DataApi.MaxRows_Request) {
